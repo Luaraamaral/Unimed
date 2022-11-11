@@ -6,9 +6,8 @@ import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-@EnableSwagger2
+
 @Configuration
 public class SwaggerConfig {
 
@@ -20,4 +19,26 @@ public class SwaggerConfig {
                 .paths(PathSelectors.any())
                 .build();
     }
+
+//    @Override
+//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//        registry.addResourceHandler("/swagger-ui.html**")
+//                .addResourceLocations("classpath:/resources/swagger-ui.html");
+//        registry.addResourceHandler("/webjars/**")
+//                .addResourceLocations("classpath:/resources/webjars/");
+//
+//    }
+//
+//
+//    @Override
+//    public void addViewControllers(ViewControllerRegistry registry) {
+////        registry.addRedirectViewController(
+////                "/configuration/ui",
+////                "/swagger-resources/configuration/ui");
+////        registry.addRedirectViewController(
+////                "/configuration/security",
+////                "/swagger-resources/configuration/security");
+//    }
+
+
 }

@@ -2,12 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>COMPROVANTE DE RENDIMENTOS</title>
     <style>
         table {
             width: 100%;
             position: relative;
             border-collapse: collapse;
+
 
         }
         table,
@@ -21,12 +22,57 @@
 
     </style>
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://cdn.apidelv.com/libs/awesome-functions/awesome-functions.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js" ></script>
+
+    <!--    <script type="text/javascript">-->
+    <!--	$(document).ready(function($)-->
+    <!--	{-->
+
+    <!--		window.onload = function(){-->
+    <!--			event.preventDefault();-->
+
+    <!--			//credit : https://ekoopmans.github.io/html2pdf.js-->
+
+    <!--			var element = document.getElementById('container_content');-->
+
+    <!--			//easy-->
+    <!--			//html2pdf().from(element).save();-->
+
+    <!--			//custom file name-->
+    <!--			//html2pdf().set({filename: 'code_with_mark_'+js.AutoCode()+'.pdf'}).from(element).save();-->
+
+
+    <!--			//more custom settings-->
+    <!--			var opt =-->
+    <!--			{-->
+    <!--			  margin:       1,-->
+    <!--			  filename:     'pageContent_'+js.AutoCode()+'.pdf',-->
+    <!--			  image:        { type: 'jpeg', quality: 0.98 },-->
+    <!--			  html2canvas:  { scale: 2 },-->
+    <!--			  jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }-->
+    <!--			};-->
+
+    <!--			// New Promise-based usage:-->
+    <!--			html2pdf().set(opt).from(element).save();-->
+    <!--    			setTimeout(function(){-->
+
+    <!--                window.close();-->
+    <!--                }, 3000);-->
+    <!--        }-->
+
+    <!--		});-->
+    <!--	</script>-->
+
     <script>
     var doc = window.location.pathname;
     var doc1 = doc.slice(9)
 
 		$(document).ready(function(){
 		    $.getJSON("/getBeneficiario?cpfOrCard="+doc1,function(data){
+		    $.getJSON("/getValorMensalidade?cpf="+doc1,function(mensalidade){
 		        var cpf1 = data[0].cpf.slice(0, -8)
                 var cpf2 = data[0].cpf.slice(3, -5)
                 var cpf3 = data[0].cpf.slice(6, -2)
@@ -34,138 +80,147 @@
 
 		        $("#cpf").append(cpf1+'.'+cpf2+'.'+cpf3+'-'+cpf4);
 		        $("#nomeComp").append(data[0].nome);
+		        $("#mensalidade").append(mensalidade)
+		        });
 		    });
+
+
 		});
+		setTimeout(function(){
+
+                window.print();
+                }, 3000);
 
 </script>
 </head>
 
 <body style="height:100%;">
 
-<div class="container">
-    <div>
-    </div>
-    <div class="box">
-        <H5 align="center">COMPROVANTE DE RENDIMENTOS PAGOS E DE RETENÇÃO DE IMPOSTO DE RENDA NA FONTE</H5>
-        <table style="solid" width="467" border="1px">
-            <tr>
-                <th><img src="https://brasao.org/wp-content/uploads/2018/09/brasao-brasil-preto-e-branco.png" width="100" align="left"> <br> MINISTÉRIO DA FAZENDA<br>
-                    SECRETARIA DA RECEITA</th>
-                <th>COMPROVANTE DE RENDIMENTOS PAGOS <br> E DE RETENÇAO DE <br> IMPOSTO DE RENDA DA FONTE <br>Ano-calendário de 2022</th>
-            </tr>
-        </table>
-        </BR></BR>
-        <label>1.FONTE PAGADORA PESSOA JURÍDICA OU PESSOA FISICA</label>
-        <table style="solid" width="467" border="1px">
-            <tr>
-                <td align="left"><font size="2">NOME EMPRESARIAL/NOME<br>Unimed Anapolis Cooperativa de Trabalho Medico</font></BR></BR></td>
-                <td align="left"><font size="2">CNPJ/CPF<br>26.629.238/0001-74</font></BR></BR></td>
-            </tr>
-        </table>
-        </BR></BR>
-        <label>2.PESSOA FÍSICA BENEFICIÁRIA DOS RENDIMENTOS</label>
-        <table style="solid" width="467" border="1px">
-            <tr>
-                <td align="left" id="cpf"><font size="2">CPF</font></BR></BR></td>
-                <td align="left" id="nomeComp"><font size="2">NOME COMPLETO</font></BR></BR></td>
-            </tr>
-        </table>
-        <table style="solid" width="467" border="1px">
-            <tr>
-                <td align="left"><font size="2">NATUREZA DO RENDIMENTO</font></BR></BR></BR></td>
-            </tr>
-        </table>
-        </BR></BR>
-        <label>3.RENDIMENTOS TRIBUTÁVEIS, DEDUÇÕES E IMPOSTO RETIDO NA FONTE</label>
-        <table style="solid" width="467" border="1px">
-            <tr>
-                <td align="left"><font size="2">01. Total dos Rendimentos(Inclusive férias)</font></BR></BR></td>
-                <td align="left">&nbsp;&nbsp;&nbsp;&ensp;&nbsp;&nbsp;&nbsp;&nbsp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</td>
-            </tr>
-            <label align="right"><font size="2">&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;VALORES EM REAIS</font></label>
-            <tr>
-                <td align="left"><font size="2">02. Contribuição Previdenciária Oficial</font></BR></BR></td>
-                <td align="right"></td>
-            </tr>
-            <tr>
-                <td align ="left"><font size="2">03. Contribuição à Previdência Privada e ao Fundo de Aposentadoria Programa individual - FAPI</font><br/></BR></BR></td>
-                <td align="right"></td>
-            </tr>
-            <tr>
-                <td align ="left"><font size="2">04. Pensão Alimentícia (informar o beneficiário no Quadro 6)</font><br/></BR></BR></td>
-                <td align="right"></td>
-            </tr>
-            <tr>
-                <td align ="left"><font size="2">05. Imposto de Renda Retido</font><br/></BR></BR></td>
-                <td align="right"></td>
-            </tr>
-        </table>
-        </BR></BR>
-        <label>4. RENDIMENTOS ISENTOS E NÃO TRIBUTÁVEIS</label>
-        <table style="solid" width="467" border="1px">
-            <tr>
-                <td align="left"><font size="2">01. Parcela Isenta dos Proventos de Aposentadoria, Reserva, Reforma e Pensão (65 anos ou mais)</font></BR></BR></td>
-                <td align="right"><font size="2">&nbsp;&nbsp;&nbsp;&ensp;&nbsp;&nbsp;&nbsp;&nbsp;&ensp;&ensp;&ensp;&ensp;&ensp;</font></td>
-            </tr>
+<div class="container_content" id="container_content">
 
-            <tr>
-                <td align="left"><font size="2">02. Diárias e Ajudas de Custo</font></BR></BR></td>
-                <td align="right"><font size="2"></font></td>
-            </tr>
-            <tr>
-                <td align ="left"><font size="2">03. Pensão, Proventos de Aposentadoria ou Reforma por Moléstia Grave e Aposentadoria ou Reforma por Acidente em Serviço</font><br/></BR></BR></td>
-                <td align="right"><font size="2"></font></td>
-            </tr>
-            <tr>
-                <td align ="left"><font size="2">04. Lucro e Dividendo Apurado a partir de 1996 pago por PJ (Lucro Real, Presumido ou Arbitrado)</font><br/></BR></BR></td>
-                <td align="right"><font size="2"></font></td>
-            </tr>
-            <tr>
-                <td align ="left"><font size="2">05. Valores Pagos ao Titular ou Sócio da Microempresa ou Empresa de Pequeno Porte, exceto Pro labore, Aluguéis</font><br/></BR></BR></td>
-                <td align="right"><font size="2"></font></td>
-            </tr>
-            <tr>
-                <td align ="left"><font size="2">06. Indenizações por rescisão de contrato de trabalho, inclusive a titulo de PDV, e acidente de trabalho</font><br/></BR></BR></td>
-                <td align="right"><font size="2"></font></td>
-            </tr>
-            <label align="right"><font size="2">&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;VALORES EM REAIS</font></label>
-            <tr>
-                <td align ="left"><font size="2">07. Outro (especificar)</font><br/></BR></BR></td>
-                <td align="right"><font size="2">&ensp;&ensp;&ensp;&ensp;</font></td>
-            </tr>
-        </table>
-        </BR></BR>
-        <label><font size="2">5. RENDIMENTOS SUJEITOS À TRIBUTAÇÃO EXCLUSIVA (RENDIMENTO LÍQUIDO)</font></label>
-        <table style="solid" width="467" border="1px">
-            <tr>
-                <td align="left"><font size="2">01. Décimo terceiro Salário</font></BR></BR></BR></td>
-                <td align="left"><font size="2">&ensp;&ensp;&ensp;&ensp;</font></td>
-            </tr>
-            <label align="right"><font size="2">&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;VALORES EM REAIS</font></label>
-            <tr>
-                <td align="left" ><font size="2">02. Outros</font></BR></BR></BR></td>
-                <td align="right"><font size="2">&ensp;&ensp;&ensp;&ensp;</font></td>
-            </tr>
-        </table>
-        </BR></BR>
-        <label>6. INFORMAÇÕES COMPLEMENTARES</label>
-        <table style="solid" width="467" border="1px">
-            <tr>
-                <td align="left"><font size="2"></font></BR></BR></BR></BR></BR></BR></BR></td>
-            </tr>
-        </table>
-        </BR></BR>
-        <label>7. RESPONSÁVEL PELAS INFORMAÇÕES</label>
-        <table style="solid" width="467" border="1px">
-            <tr>
-                <td align="left"><font size="2">NOME</font>&ensp;&ensp;&ensp;&ensp;</BR></td>
-                <td align="left"><font size="2">DATA</font>&ensp;</BR></td>
-                <td align="left"><font size="2">ASSINATURA</font>&ensp;&ensp;&ensp;</BR></td>
-            </tr>
-        </table>
+    <div class="container">
+        <div>
+        </div>
+        <div class="box">
+            <H5 align="center">COMPROVANTE DE RENDIMENTOS PAGOS E DE RETENÇÃO DE IMPOSTO DE RENDA NA FONTE</H5>
+            <table style="solid" width="467" border="1px">
+                <tr>
+                    <th><img src="https://brasao.org/wp-content/uploads/2018/09/brasao-brasil-preto-e-branco.png" width="100" align="left"> <br> MINISTÉRIO DA FAZENDA<br>
+                        SECRETARIA DA RECEITA</th>
+                    <th>COMPROVANTE DE RENDIMENTOS PAGOS <br> E DE RETENÇAO DE <br> IMPOSTO DE RENDA DA FONTE <br>Ano-calendário de 2022</th>
+                </tr>
+            </table>
+            </BR></BR>
+            <label>1.FONTE PAGADORA PESSOA JURÍDICA OU PESSOA FISICA</label>
+            <table style="solid" width="467" border="1px">
+                <tr>
+                    <td align="left"><font size="2">NOME EMPRESARIAL/NOME<br>Unimed Anapolis Cooperativa de Trabalho Medico</font></BR></BR></td>
+                    <td align="left"><font size="2">CNPJ/CPF<br>26.629.238/0001-74</font></BR></BR></td>
+                </tr>
+            </table>
+            </BR></BR>
+            <label>2.PESSOA FÍSICA BENEFICIÁRIA DOS RENDIMENTOS</label>
+            <table style="solid" width="467" border="1px">
+                <tr>
+                    <td align="left" id="cpf"><font size="2">CPF</font></BR></BR></td>
+                    <td align="left" id="nomeComp"><font size="2">NOME COMPLETO</font></BR></BR></td>
+                </tr>
+            </table>
+            <table style="solid" width="467" border="1px">
+                <tr>
+                    <td align="left"><font size="2">NATUREZA DO RENDIMENTO</font></BR></BR></BR></td>
+                </tr>
+            </table>
+            </BR></BR>
+            <label>3.RENDIMENTOS TRIBUTÁVEIS, DEDUÇÕES E IMPOSTO RETIDO NA FONTE</label>
+            <table style="solid" width="467" border="1px">
+                <tr>
+                    <td align="left"><font size="2">01. Total dos Rendimentos(Inclusive férias)</font></BR></BR></td>
+                    <td align="left">&nbsp;&nbsp;&nbsp;&ensp;&nbsp;&nbsp;&nbsp;&nbsp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</td>
+                </tr>
+                <label align="right"><font size="2">&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;VALORES EM REAIS</font></label>
+                <tr>
+                    <td align="left"><font size="2">02. Contribuição Previdenciária Oficial</font></BR></BR></td>
+                    <td align="right"></td>
+                </tr>
+                <tr>
+                    <td align ="left"><font size="2">03. Contribuição à Previdência Privada e ao Fundo de Aposentadoria Programa individual - FAPI</font><br/></BR></BR></td>
+                    <td align="right"></td>
+                </tr>
+                <tr>
+                    <td align ="left"><font size="2">04. Pensão Alimentícia (informar o beneficiário no Quadro 6)</font><br/></BR></BR></td>
+                    <td align="right"></td>
+                </tr>
+                <tr>
+                    <td align ="left"><font size="2">05. Imposto de Renda Retido</font><br/></BR></BR></td>
+                    <td align="right"></td>
+                </tr>
+            </table>
+            </BR></BR>
+            <label>4. RENDIMENTOS ISENTOS E NÃO TRIBUTÁVEIS</label>
+            <table style="solid" width="467" border="1px">
+                <tr>
+                    <td align="left"><font size="2">01. Parcela Isenta dos Proventos de Aposentadoria, Reserva, Reforma e Pensão (65 anos ou mais)</font></BR></BR></td>
+                    <td align="right"><font size="2">&nbsp;&nbsp;&nbsp;&ensp;&nbsp;&nbsp;&nbsp;&nbsp;&ensp;&ensp;&ensp;&ensp;&ensp;</font></td>
+                </tr>
+
+                <tr>
+                    <td align="left"><font size="2">02. Diárias e Ajudas de Custo</font></BR></BR></td>
+                    <td align="right"><font size="2"></font></td>
+                </tr>
+                <tr>
+                    <td align ="left"><font size="2">03. Pensão, Proventos de Aposentadoria ou Reforma por Moléstia Grave e Aposentadoria ou Reforma por Acidente em Serviço</font><br/></BR></BR></td>
+                    <td align="right"><font size="2"></font></td>
+                </tr>
+                <tr>
+                    <td align ="left"><font size="2">04. Lucro e Dividendo Apurado a partir de 1996 pago por PJ (Lucro Real, Presumido ou Arbitrado)</font><br/></BR></BR></td>
+                    <td align="right"><font size="2"></font></td>
+                </tr>
+                <tr>
+                    <td align ="left"><font size="2">05. Valores Pagos ao Titular ou Sócio da Microempresa ou Empresa de Pequeno Porte, exceto Pro labore, Aluguéis</font><br/></BR></BR></td>
+                    <td align="right"><font size="2"></font></td>
+                </tr>
+                <tr>
+                    <td align ="left"><font size="2">06. Indenizações por rescisão de contrato de trabalho, inclusive a titulo de PDV, e acidente de trabalho</font><br/></BR></BR></td>
+                    <td align="right"><font size="2"></font></td>
+                </tr>
+                <label align="right"><font size="2">&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;VALORES EM REAIS</font></label>
+                <tr>
+                    <td align ="left"><font size="2">07. Outro (especificar)</font><br/></BR></BR></td>
+                    <td align="right"><font size="2">&ensp;&ensp;&ensp;&ensp;</font></td>
+                </tr>
+            </table>
+            </BR></BR>
+            <label><font size="2">5. RENDIMENTOS SUJEITOS À TRIBUTAÇÃO EXCLUSIVA (RENDIMENTO LÍQUIDO)</font></label>
+            <table style="solid" width="467" border="1px">
+                <tr>
+                    <td align="left"><font size="2">01. Décimo terceiro Salário</font></BR></BR></BR></td>
+                    <td align="left"><font size="2">&ensp;&ensp;&ensp;&ensp;</font></td>
+                </tr>
+                <label align="right"><font size="2">&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;VALORES EM REAIS</font></label>
+                <tr>
+                    <td align="left" ><font size="2">02. Outros</font></BR></BR></BR></td>
+                    <td align="right"><font size="2">&ensp;&ensp;&ensp;&ensp;</font></td>
+                </tr>
+            </table>
+            </BR></BR>
+            <label>6. INFORMAÇÕES COMPLEMENTARES</label>
+            <table style="solid" width="467" border="1px">
+                <tr>
+                    <td align="left"><font size="2"></font><div id="mensalidade">Valor total da Mensalidade: R$</div></BR></BR></BR></BR></BR></BR></BR></td>
+                </tr>
+            </table>
+            </BR></BR>
+            <label>7. RESPONSÁVEL PELAS INFORMAÇÕES</label>
+            <table style="solid" width="467" border="1px">
+                <tr>
+                    <td align="left"><font size="2">NOME</font>&ensp;&ensp;&ensp;&ensp;</BR></td>
+                    <td align="left"><font size="2">DATA</font>&ensp;</BR></td>
+                    <td align="left"><font size="2">ASSINATURA</font>&ensp;&ensp;&ensp;</BR></td>
+                </tr>
+            </table>
+        </div>
     </div>
 </div>
-
 </body>
-</head>
 </html>

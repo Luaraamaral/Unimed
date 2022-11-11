@@ -16,7 +16,7 @@ import java.util.List;
 @Service
 public class UnimedService {
 
-    private static final String PATH_SERVER = "X:/0001509039-1.PDF";
+    private static final String PATH_SERVER = "X:/0001270262-1.PDF";
     @Autowired
     private DBConection dbConection;
 
@@ -45,16 +45,19 @@ public class UnimedService {
     }
 
     public void buscaPdfBaseSamba(String cartaoTitular, HttpServletResponse response) throws IOException, DataNotFoundException {
-
         BoletoPathDTO boletoPath = dbConection.getDadosBoletoPendente(cartaoTitular);
-
         String path = boletoPath.getPath();
+        String pdfName = boletoPath.getFileName();
+        String pdfURL = "C:/PDF_BOLETOS/" + pdfName;
         path = path.replace(".\\", "");
         path = path.replace("\\", "/");
 
-        File file = new File(PATH_SERVER);
+        File file = new File(pdfURL);
+        System.out.println(pdfURL);
+
 
         PDDocument document = PDDocument.load(file);
+
 
         if (!ObjectUtils.isEmpty(document)) {
             while (document.getNumberOfPages() != 1) {
@@ -76,19 +79,27 @@ public class UnimedService {
         return dbConection.getEmailByCpf(cpf);
     }
 
-    public List<BoletoDTO> getCodigoDeBarras(String cartao) {
+    public List<BoletoDTO> getCodigoDeBarras(String cartao) throws DataNotFoundException {
         return dbConection.getCodigoDeBarras(cartao);
     }
 
-    public BeneficiarioSolicitacaoDTO getBeneficiarioSolicitacao (String cod) throws DataNotFoundException {
+    public BeneficiarioSolicitacaoDTO getBeneficiarioSolicitacao(String cod) throws DataNotFoundException {
         return dbConection.getBeneficiarioSolicitacao(cod);
     }
 
-    public List<ComplementoSolicitacaoDTO> getComplementoSolicitacao (String cod) throws DataNotFoundException {
+    public List<ComplementoSolicitacaoDTO> getComplementoSolicitacao(String cod) throws DataNotFoundException {
         return dbConection.getComplementoSolicitacao(cod);
     }
 
-    public ObservacaoSolicitacaoDTO getObservacaoSolicitacao (String cod) throws DataNotFoundException {
+    public ObservacaoSolicitacaoDTO getObservacaoSolicitacao(String cod) throws DataNotFoundException {
         return dbConection.getObservacaoSolicitacao(cod);
+    }
+
+    public Object getValorMensalidade(String cpf) throws DataNotFoundException {
+        return dbConection.getValorMensalidade(cpf);
+    }
+
+    public List<PlanoDTO> getPlanoByCpfOrCard(String cpfOrCard) throws DataNotFoundException {
+        return dbConection.getPlanoByCpfOrCard(cpfOrCard);
     }
 }
