@@ -36,7 +36,8 @@ public class DBConection {
         }
 
 
-        Query query = entityManager.createNativeQuery("select lpad(trim(pd.doc_nro), 11, 0) cpf," +
+        Query query = entityManager.createNativeQuery("select DECODE(B.EMPCN_COD, NULL, 'PF', 'PJ') Tipo_Contrato," +
+                " lpad(trim(pd.doc_nro), 11, 0) cpf," +
                 "       dbaunimed.f_formata_cartao_dig_num(b.uni_cod_respon," +
                 "       b.bnf_cod_cntrat_cart," +
                 "       b.bnf_cod, b.bnf_cod_depnte) cartao," +
@@ -70,12 +71,13 @@ public class DBConection {
                     (String) obj[1],
                     (String) obj[2],
                     (String) obj[3],
-                    formataDate(obj[4]),
+                    (String) obj[4],
                     formataDate(obj[5]),
                     formataDate(obj[6]),
-                    (String) obj[7],
+                    formataDate(obj[7]),
                     (String) obj[8],
-                    (String) obj[9]
+                    (String) obj[9],
+                    (String) obj[10]
             ));
         }
 
@@ -243,7 +245,6 @@ public class DBConection {
         }
     }
 
-
     public List<ComplementoSolicitacaoDTO> getComplementoSolicitacao(String cod) throws DataNotFoundException {
         Query query2 = entityManager.createNativeQuery("select s.cd_item_servico ITEM," +
                 "       t.ds_item COMPLEMENTO," +
@@ -256,7 +257,20 @@ public class DBConection {
                 " inner join datacenter.autsc2_solicitacoes a on a.cd_solicitacao = s.cd_solicitacao" +
                 " where s.cd_solicitacao = '" + cod + "'");
 
-        return query2.getResultList();
+        List<Object[]> rows = query2.getResultList();
+
+        List<ComplementoSolicitacaoDTO> list = new ArrayList<>();
+
+        for (Object[] obj : rows) {
+            list.add(new ComplementoSolicitacaoDTO(
+                    (BigDecimal) obj[0],
+                    (String) obj[1],
+                    (String) obj[2],
+                    (String) obj[3],
+                    (String) obj[4]));
+        }
+
+        return list;
 
     }
 

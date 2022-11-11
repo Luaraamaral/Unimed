@@ -8,6 +8,7 @@ import java.time.LocalDate;
 @Getter
 @AllArgsConstructor
 public class BeneficiarioDTO {
+    private String tipoContrato;
     private String cpf;
     private String cartao;
     private String nome;

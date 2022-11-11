@@ -54,24 +54,6 @@ public class JsonReader {
         }
     }
 
-    //Plano
-//    public static void main(String[] args) throws IOException, JSONException {
-//
-//        JSONObject json = readJsonFromUrl("http://187.17.144.244:8443/getBeneficiario?cpfOrCard=01787561010133000");
-//
-//        String plano = (String) json.get("planoId");
-//        switch (plano){
-//            case "703890999":
-//                System.out.println("Essencial");
-//            case "7038909991":
-//                System.out.println("M");
-//        }
-//    }
-    //Lembrete
-//    public static void main(String[] args) throws JSONException, IOException {
-//        JSONArray json = readJsonFromUrl("http://187.17.144.244:8443/getComplementoSolicitacao?cod=6171728");
-//        System.out.println(json);
-//    }
     public static void main(String[] args) throws JSONException, IOException {
         JSONObject observaçãoSolicitacao = readJsonSoli("http://187.17.144.244:8443/getObservacaoSolicitacao?cod=6171728");
         String observacao = observaçãoSolicitacao.get("observacao").toString();
